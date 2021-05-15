@@ -1,4 +1,4 @@
 {"modelName": "Diabetes_Model", "fileInput": {"fileName": "./../../datasets/diabetes.csv", "importType": "File", "separator": ","}, 
-"targetValue": "Diabetic", "partitionTraining": 0.7, "modelType": "Classification", 
-"customModel": {"name": "LogisticRegression", "params": {"C": 10.0, "solver": "liblinear"}}, "metrics_performace": ["acurracy", "roc"], 
+"targetValue": "Diabetic", "partitionTraining": 0.7, "modelType": "Classification", "classNames": ["not-diabetic", "diabetic"],
+"customModel": "", "metrics_performace": ["acurracy", "roc"], 
 "primaryMetric": "accuracy", "fileOutput": "diabetes_model.pkl"} 
