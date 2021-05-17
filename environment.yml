@@ -1,0 +1,16 @@
+name: autoML
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - fastapi
+  - joblib
+  - numpy
+  - numpy-base
+  - pandas
+  - pip
+  - pydantic
+  - scikit-learn
+  - pip:
+    - redis==3.5.3
+    - uvicorn

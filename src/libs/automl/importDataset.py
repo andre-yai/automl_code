@@ -31,7 +31,7 @@ class ImportDataset:
             data_type = self.data[col].dtype
             uniqueless = unique_values/num_columns
             if(uniqueless >= 0.9 and data_type != 'float'):
-                self.logging.info(f"Variable {col} and {data_type} is {uniqueless}.")
+                # self.logging.info(f"Variable {col} and {data_type} is {uniqueless}.")
                 self.data = self.data.drop([col],axis='columns')
                 useDrop = True
         return useDrop
