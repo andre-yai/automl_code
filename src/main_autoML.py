@@ -1,3 +1,8 @@
+
+#=========================
+# Main Class for auto ML
+#======================
+
 import logging
 from libs.automl.importDataset import ImportDataset
 from libs.automl.trainingModel import TrainingModels
@@ -10,7 +15,11 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(mess
 
 class AutoML:
     def getData(self):
-        # =============== 1. Import Dataset ============================
+        
+        # ==========================================================
+        # This function is responsable calling for importing dataset
+        #===========================================================
+
         self.dataset = ImportDataset(logging,self.config["fileInput"])
         # print(dataset.data.dtypes)
         self.usedFeatureEng = []
@@ -19,40 +28,61 @@ class AutoML:
             self.usedFeatureEng.append([self.dataset.featureDropCardinal])
         self.dataset.setTargetValue(self.config["targetValue"])
 
-    #================= 2. Graph Metrics ===========================
     def infoDatabase(self):
+        #=============================================================
+        # This function is responsable for getting dataset Metrics
+        #==============================================================
+
         self.metrics = GraphMetric(logging,self.dataset,self.config)
         self.missingFlag, self.featureStats, self.unbalancedFlag, self.targetStats = self.metrics.infoDataset()
         
-    # =================== 3. Model Training ========================
     def trainingModel(self):
-        self.training = TrainingModels(logging,self.dataset,self.config)
+        # =============================================================
+        # This function is responsable for calling the training model.
+        #===============================================================
 
-    #================== MetaData ==========================
+        self.training = TrainingModels(logging,self.dataset,self.config,self.modelFolder)
+
     
     def readMetadata(self):
+        #=======================================================
+        # This function is responsable for reading metadata
+        #========================================================
         try:
-            with open(f'./../../models/{self.config["modelName"]}.json', 'r') as file:
+            metadataOutput = self.modelFolder+'/'+self.config["modelName"] +'.json'
+            with open(metadataOutput, 'r') as file:
                 self.metadata = json.load(file)
         except:
             self.metadata = {}
 
     def readFileConfig(self,fileConfig):
+        #================================================================
+        # This function is responsable for reading the config model file.
+        #================================================================
+        
         with open(fileConfig, 'r') as file:
             self.config = json.load(file)
 
     def writeMetadata(self):        
+        #=======================================================
+        # This function is resposable for writing Metadata
+        #========================================================
+
         output = {"file":self.training.fileOutput, "cols":self.dataset.feature_cols, "classNames": self.config["classNames"],
         "featureStats": [self.featureStats],  "targetStats": [self.targetStats]}
         
-        with open(f'./../../models/{self.config["modelName"]}.json', 'w+') as file:
+        metadataOutput = self.modelFolder +'/'+ self.config["modelName"] +'.json'
+        with open(metadataOutput, 'w+') as file:
             json.dump(output, file)
 
-    
-# ['not-diabetic', 'diabetic']
+    def __init__ (self,fileConfig, modelFolder):
+        #=======================================================
+        # This function orchestrate main flow
+        #========================================================
 
-    def __init__ (self,fileConfig):
         logging.info('::: Starting Application :::')
+
+        self.modelFolder = modelFolder
 
         self.readFileConfig(fileConfig)
         self.readMetadata()
@@ -69,7 +99,7 @@ class AutoML:
         if(self.unbalancedFlag == 1):
             logging.info("Treat Unbalanced Data")
 
-        if(self.metadata.keys() == []):
+        if(len(self.metadata.keys()) == 0):
             logging.info(" New data!! No data drift!!")
         else:
             previousStats = self.metadata["featureStats"][0]
@@ -79,8 +109,7 @@ class AutoML:
 
         logging.info('::: Training Model :::')
         self.trainingModel()
-            
         self.writeMetadata()
 
 
-AutoML(os.environ["ConfigFile"])
+AutoML(os.environ["ConfigFile"], os.environ["ModelFolder"])

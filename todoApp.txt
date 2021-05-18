@@ -1,0 +1,18 @@
+In Training we have:
+- Importing dataset: Here we are importing from a csv file.
+- Doing Feature Engineering:  Removing high cardinallity features. 
+- Separate data: Separate data into feature and target values and into training and testing.
+- Model: Selecting from different types of model that can be suitable for the task or to a custom model provided in config.
+- Evaluation: Metrics  in classification (accuracy, Roc-Auc,precision, recall, f1_score) and Metrics in Regression (MAE, MSQRT).
+- Generate model: Generate a pickle model.
+- It would be nice to have a ML-Flow attach to it just to save metrics
+- TODO: Nice to have feature importance.  
+- TODO: treating missing and balancing data.
+- TODO: Testing 
+
+In Model Serving we have:
+- Take models from previous step.
+- Instanciate a web server. And join the needed files to config.
+- TODO: In some cases we would need to perform feature engineering in training and so in prediction data.
+- TODO: Create a cache database to save same predictions.
+- TODO: It would be nice to have a Elastic Cache to save application log and see it usage.

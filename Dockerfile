@@ -11,7 +11,7 @@ COPY . /app
 WORKDIR /app
 
 # Create the environment:
-RUN pip3 install fastapi uvicorn
+RUN pip3 install fastapi uvicorn joblib numpy sklearn
 RUN conda env create -f environment.yml 
 # Activate the environment, and make sure it's activated:
 # RUN conda activate autoML
@@ -31,7 +31,8 @@ ENV CONDA_DEFAULT_ENV autoML
 ENV PATH /opt/conda/envs/connect/bin:/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 WORKDIR /app/src
-ENV ConfigFile=./models/Diabetes_Model.json
+ENV ConfigFile=./../models/Diabetes_Model.json
+ENV ModelFolder=./../models
 CMD [ "uvicorn", "main_modelServing:app", "--host", "0.0.0.0", "--port", "15400" ]
 
 # Redis Dockerfile

@@ -1,6 +1,9 @@
 
 def compareData(infoPreviousData, infoNewData, meanChange = 0, stdChange = 0):
-    print("============================== ** ==============")
+    #================================================================
+    # This function is responsable for calculating Data Drifts.
+    #================================================================
+    
     dataCols = infoPreviousData.keys()
 
     dataDrifts = {}

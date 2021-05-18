@@ -8,13 +8,18 @@ import numpy as np
 class ModelClasEvaluation:
 
     def calculateMetrics(self,model, name):
+
+        #======================================================================-
+        # This function is responsable for orquestrating classification metrics.
+        #=======================================================================
+
         metrics_model = {}
         metrics_model["name"] = name
         metrics_model["model"] = model
         metrics_model["evaluation"] = {}
 
         if('acurracy' in self.metrics_performace):
-            acc = self.calculateAccurancy(model)
+            acc = self.calculateAccuracy(model)
             metrics_model["evaluation"]["accuracy"] = acc
 
         if('roc' in self.metrics_performace):
@@ -35,29 +40,52 @@ class ModelClasEvaluation:
 
         return metrics_model 
     
-    def calculateAccurancy(self,model):
+    def calculateAccuracy(self,model):
+   
+        #================================================================
+        # This function is responsable for calculating Accuracy
+        #================================================================
+
         y_hat = model.predict(self.feature_test)
         acc = np.average(y_hat == self.target_test)
         return acc
 
 
     def calculateAuc(self,model):
+
+        #================================================================
+        # This function is responsable for calculating Roc-AUC
+        #================================================================
+
         y_scores = model.predict_proba(self.feature_test)
         auc = roc_auc_score(self.target_test,y_scores[:,1])
         return auc
 
     def calculatePrecision(self,model):
+
+        #================================================================
+        # This function is responsable for calculating Precision
+        #================================================================
+
         y_scores = model.predict(self.feature_test)
         prec = precision_score(self.target_test,y_scores, average='macro')
         return prec
 
     def calculateRecall(self,model):
+        #================================================================
+        # This function is responsable for calculating Recall
+        #================================================================
+
         y_scores = model.predict(self.feature_test)
         rec = recall_score(self.target_test,y_scores, average='macro')
         return rec
 
 
     def calculateF1score(self,model):
+        #================================================================
+        # This function is responsable for calculating F1 score.
+        #================================================================
+        
         y_scores = model.predict(self.label_test)
         auc = f1_score(self.target_test,y_scores)
         return auc

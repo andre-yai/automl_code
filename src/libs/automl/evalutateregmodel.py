@@ -5,6 +5,10 @@ import numpy as np
 class ModelRegEvaluation:
 
     def calculateMetrics(self,model, name):
+        #================================================================
+        # This function is responsable for orquestrating metrics.
+        #================================================================
+
         metrics_model = {}
         metrics_model["name"] = name
         metrics_model["model"] = model
@@ -21,13 +25,23 @@ class ModelRegEvaluation:
         return metrics_model 
  
     def calculateMae(self,model):
+
+        #================================================================
+        # This function is responsable for calculating Mae
+        #================================================================
+
         y_scores = model.predict(self.feature_test)
         prec =  mean_absolute_error(self.target_test,y_scores, average='macro')
         return prec
 
     def calculateMsqe(self,model):
+
+        #================================================================
+        # This function is responsable for mean_squared_error
+        #================================================================
+
         y_scores = model.predict(self.feature_test)
-        rec = rmean_squared_error(self.target_test,y_scores, average='macro')
+        rec = mean_squared_error(self.target_test,y_scores, average='macro')
         return rec
 
 

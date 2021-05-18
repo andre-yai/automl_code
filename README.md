@@ -1,9 +1,13 @@
-# Auto ML
+# Auto ML e Model Serving
+
+Nome: André Kenji Yai
+
+## Part 1. Auto ML e Model Serving
+
 
 This is a project that is trying to emulate an AutoML and Model Serving.
 
 In this project we cover diferent aspects to ML train and deployment lifecycle.
-
 
 
 In Training we have:
@@ -14,17 +18,12 @@ In Training we have:
 - Evaluation: Metrics  in classification (accuracy, Roc-Auc,precision, recall, f1_score) and Metrics in Regression (MAE, MSQRT).
 - Generate model: Generate a pickle model.
 - It would be nice to have a ML-Flow attach to it just to save metrics
-- TODO: Nice to have feature importance.  
-- TODO: treating missing and balancing data.
-- TODO: Testing 
 
 In Model Serving we have:
 - Take models from previous step.
 - Instanciate a web server. And join the needed files to config.
-- TODO: Create a cache database to save same predictions.
-- TODO: It would be nice to have a Elastic Cache to save application log and see it usage.
-- TODO: Testing 
 
+To see TODOS see at todoApp.txt
 
 File Organization
 - models/ - models and metadatarepository.
@@ -43,16 +42,38 @@ evaluateregmodel - responsable for evaluating regression models.
 - modelServing
 ModelInfrence - responsible for getting the model and making predictions.
 
-#  How to run 
+### How to run 
 1. Create a conda enviroment using enviroment.yml.
 2. Certify that the data that you need is in datasets
 3. Go to examples/diabetes. There we have some executables:
 - diabete_model.sh - generates a model according to a specific model according to config_diabete.json settings.
 - diabete_model_geral.sh : generates a model to certain task not specifing the model. It tries different models and select the best.
-- run_server.sh - runs Api server for predictions.
+- diabete_server.sh - runs Api server for predictions.
 
+### Testing
+1. run pytest mlServing_test.sh will test the result o module prediction.
 
-# Input 
+### Swagger
+
+http://0.0.0.0:15400/docs
+
+as input in predict you can set [[2,180,74,24,21,23.9091702,1.488172308,22]]
+
+### Docker 
+
+Run command 
+'''
+    docker-compose up -d  
+'''
+to containize docker image for model serving.
+
+Then 
+'''
+    docker run -d automl_code_core_api_ml    
+'''
+And test in http://localhost:8000
+
+### Input 
 
 In config_diabete.json code we have the following config.
 
@@ -74,7 +95,7 @@ metrics_performace - metrics used to compare models.
 primaryMetric - metric used to select best model.
 fileOutput - name of pickle
 
-# Outputs
+### Outputs
 
 In models/
 - new model to be used. 

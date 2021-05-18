@@ -6,6 +6,10 @@ class ImportDataset:
 
     # get data from File
     def getDataFromFile(self,location,separator=';'):
+        #================================================================
+        # This function is responsable for importing dataset.
+        #================================================================
+
         try:
             self.data = pd.read_csv(location,sep=separator)
         except:
@@ -22,6 +26,10 @@ class ImportDataset:
     
 
     def featureDropCardinal(self):
+        #================================================================
+        # This function is responsable for Dropping High Cardinallty features.
+        #================================================================
+
         # Drop Cardinal
         useDrop = False
         num_columns = self.data.count()[0]
@@ -31,13 +39,17 @@ class ImportDataset:
             data_type = self.data[col].dtype
             uniqueless = unique_values/num_columns
             if(uniqueless >= 0.9 and data_type != 'float'):
-                # self.logging.info(f"Variable {col} and {data_type} is {uniqueless}.")
+                self.logging.info(f"Droping variable {col} because of High Cardinality. Data Type is {data_type} and uniqueless {uniqueless}.")
                 self.data = self.data.drop([col],axis='columns')
                 useDrop = True
         return useDrop
 
     
     def setTargetValue(self,targetCol):
+        #================================================================
+        # This function is responsable for setting target and other features.
+        #================================================================
+
         self.target_col = targetCol
         self.target = self.data[targetCol].values
         self.feature_cols = [col for col in self.data.columns if (col != targetCol)]
@@ -45,22 +57,16 @@ class ImportDataset:
     
     
     def __init__(self,logging,fileInputConfig):
-        print(fileInputConfig)
+        #================================================================
+        # This function is responsable for orquestrating import dataset.
+        #================================================================
+
         self.logging = logging
         location = fileInputConfig["fileName"]
         importType = fileInputConfig["importType"]
         separator = fileInputConfig["separator"]
+        
+        self.logging.info(f"Importing data from {location}")
 
         if(importType == 'File'):
             self.getDataFromFile(location,separator)
-
-    
-
-
-    
-if __name__ == '__main__':
-   dataset = ImportDataset('./datasets/diabetes.csv','File',',')
-   # print(dataset.data.dtypes)
-   dataset.featureDropCardinal()
-   dataset.setTargetValue('Diabetic')
-   # dataset.partitionTrainingAndTesting(0.7)

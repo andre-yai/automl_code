@@ -1,0 +1,1 @@
+cp test_mlServer.py ./../../src/ && cd ./../../src/ && pytest test_mlServer.py
