@@ -102,3 +102,21 @@ In models/
 - metadata of application.
 
 Next we instanciate run_server.sh that will run a web server in FastAPI to our application. Here metadata from the previous step will be used.
+
+
+# Part2 - Arquitetura AWS
+
+Exercicio 2:
+Nesta arquitetura utilizamos o Code Commit, Code Build, S3, DBs (RDS, EMR) Cloud Watch (Events) e Lambdas. Estes serão mais eficientes pois geram pouco custo de sustentação, serverless e facil implementação.
+
+Olhar a imagem: Arquitetura_iFood_mle.png.
+
+Funcionamento:
+1 -  A cada atualização dos dados e/ou do repositório do codigo . Temos um CloudWatch (monitoramento) observando.
+2- Este fará uma chamada para o Lambda que ficará responsável por criar o modelo e os seus metadados.
+3 - Estes resultados do lambda serão salvos num S3.
+4 - Este bucket estará acionará um lambda ao receber os arquivos. Este lambda ficará responsavel pela parte de model serving da aplicação.
+5 - Por fim este lambda está ligado a um  API Gateway para organizar as chamadas da Api.
+
+# Bonus 
+1 - Atraves do comando ltrace conseguimos descobrir a senha do level01 que é 1F00d{P13c3_0f_C4k3}. Atraves deste mesmo comando vimos que o level02 é algo relacionado ao tamanho da senha.
